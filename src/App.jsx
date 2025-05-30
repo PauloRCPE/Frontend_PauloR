@@ -6,7 +6,6 @@ import { useState, useEffect, use } from "react";
 
 function App() {
   const [contador, setContador] = useState(0);
-  contador = 0;
 
   useEffect(() => {
     alert("abriu");
