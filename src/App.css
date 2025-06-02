@@ -1,11 +1,5 @@
-.divTest {
-  border: solid;
-  border-color: black;
-  height: 60px;
-  width: 60px;
-  margin-left: 50px;
-  padding-left: 5px;
-  margin-top: 50px;
-  font-style: italic;
-  font-size: 20px;
+body,
+html {
+  background-color: #141414;
+  color: white;
 }
