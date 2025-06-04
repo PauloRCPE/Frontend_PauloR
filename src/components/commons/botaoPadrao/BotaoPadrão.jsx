@@ -1,6 +1,4 @@
 import { BotaoP } from "./Styles";
-import { HomeOutlined } from "@ant-design/icons";
-import { LoginOutlined } from "@ant-design/icons";
 
 function BotaoPadrao(props) {
   return (
