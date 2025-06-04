@@ -1,5 +1,5 @@
 function Cadastro() {
-  return <div>Cadastro CARAI </div>;
+  return <div>Cadastro CARAAAAAAAAAAAAAAAAI</div>;
 }
 
 export default Cadastro;
