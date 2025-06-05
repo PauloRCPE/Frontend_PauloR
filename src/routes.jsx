@@ -4,9 +4,9 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import Home from "./pages/home";
-import Login from "./pages/login";
-import Cadastro from "./pages/cadastro";
+import Home from "./pages/home/Home";
+import Login from "./pages/login/Login";
+import Cadastro from "./pages/cadastro/Cadastro";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

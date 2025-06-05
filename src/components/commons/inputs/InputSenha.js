@@ -4,4 +4,5 @@ import styled from "styled-components";
 export const StySenha = styled(Input.Password)`
   width: 60vh;
   height: 6vh;
+  border-radius: 50px;
 `;
