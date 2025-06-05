@@ -1,14 +1,107 @@
-import { Button, Image, List } from "antd";
+import { Button, ConfigProvider, Image, Table } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-//import { Sessoes } from "../../components/features/sessaoLista/SessõesTable";
+import { DeleteFilled, LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { TableWrapper } from "../../components/features/tableWrapper/tableWrapper";
+import { BotaoP } from "../../components/commons/botPadrão/Styles";
+import { useState } from "react";
+import ModalP from "../../components/commons/modal";
+import { useReadSession } from "../../../hooks/sessoes";
+import { useReadUser } from "../../../hooks/usuarios";
 
 function Home() {
   const navigate = useNavigate();
+  const [ModalVis, setModalVis] = useState(false);
+  const { data: sessions } = useReadSession({});
+  const { data: users } = useReadUser({});
+  const combinedData = users?.map((user) => {
+    const userSession = sessions?.find(
+      (session) => session.id_usuario === user._id
+    );
+    return {
+      nome: user.nome,
+      createdAt: userSession?.createdAt,
+    };
+  });
+  /*const sessoes = [
+    {
+      nome: "Rian",
+      inicio: "11:21",
+      id: "1",
+    },
+    {
+      nome: "Samuel",
+      inicio: "10:32",
+      id: "10",
+    },
+    {
+      nome: "João",
+      inicio: "5:55",
+      id: "5",
+    },
+    {
+      nome: "Ana",
+      inicio: "21:19",
+      id: "3",
+    },
+  ];*/
+
+  const columns = [
+    {
+      title: "Nome do Usuário",
+      dataIndex: "nome",
+      key: "nome",
+      responsive: ["xs", "sm", "md", "lg", "xl"],
+    },
+    {
+      title: "Início da Sessão",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      responsive: ["xs", "sm", "md", "lg", "xl"],
+    },
+    {
+      key: "controller",
+      render: () => (
+        <BotaoP
+          onClick={() => alert("A")}
+          icon={<DeleteFilled size={"large"} />}
+          style={{
+            width: "5vh",
+            height: "5vh",
+            backgroundColor: "transparent",
+            color: "white",
+            borderColor: "transparent",
+          }}
+        />
+      ),
+    },
+  ];
+
   return (
     <div style={{ backgroundColor: "#000000", minHeight: "100vh" }}>
+      <ModalP open={ModalVis} setOpen={setModalVis} footdiv={"Login"}>
+        <div
+          style={{
+            fontFamily: "'roboto', sans-serif",
+            fontSize: "1.3rem",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          Você deseja mesmo fazer login?
+        </div>
+        <div
+          style={{
+            fontFamily: "'roboto', sans-serif",
+            fontSize: "0.9rem",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          Tem certeza que você deseja fazer esse login?
+        </div>
+      </ModalP>
       <div
         style={{
           display: "flex",
@@ -26,17 +119,16 @@ function Home() {
           height={"24vh"}
         />
         <Button type="Text">
-          <text style={{ fontSize: "4vh" }}>HOME</text>
+          <div style={{ fontSize: "4vh" }}>HOME</div>
         </Button>
         <Button type="Text">
-          <text style={{ fontSize: "4vh" }}>PERFIL</text>
+          <div style={{ fontSize: "4vh" }}>PERFIL</div>
         </Button>
         <Button type="Text">
-          <text style={{ marginRight: "200px", fontSize: "4vh" }}>
-            USUÁRIOS
-          </text>
+          <div style={{ marginRight: "200px", fontSize: "4vh" }}>USUÁRIOS</div>
         </Button>
       </div>
+
       <div>
         <Carousel
           autoPlay={true}
@@ -95,7 +187,7 @@ function Home() {
           <div>
             <img
               src="https://media.discordapp.net/attachments/674342271147311107/1379956574755225671/CarroselAviso.jpg?ex=68422035&is=6840ceb5&hm=ea2c99810ba84b13ecc759578c7cd5fd08289cba740c572eb9eeecac7aaa8db1&=&format=webp&width=1241&height=699"
-              style={{ height: "50vh  ", objectFit: "contain" }}
+              style={{ height: "50vh", objectFit: "contain" }}
             />
           </div>
           <div>
@@ -118,6 +210,44 @@ function Home() {
           </div>
         </Carousel>
       </div>
+      <TableWrapper style={{ width: "150vh" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginBottom: "1rem",
+          }}
+        >
+          <BotaoP
+            onClick={() => {
+              setModalVis(true);
+            }}
+            style={{
+              color: "#FFE712",
+              backgroundColor: "black",
+              borderColor: "#FFE712",
+              borderRadius: "10px",
+              width: "25vh",
+              height: "3vh",
+            }}
+          >
+            <div
+              style={{ fontFamily: "'Roboto', sans-serif", fontSize: "2vh" }}
+            >
+              Fazer Login
+            </div>
+          </BotaoP>
+        </div>
+        <Table
+          dataSource={combinedData}
+          columns={columns}
+          rowKey="id"
+          pagination={false}
+          scroll={true}
+          rowHoverable={false}
+          rowClassName={() => "hover"}
+        />
+      </TableWrapper>
     </div>
   );
 }

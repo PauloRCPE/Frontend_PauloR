@@ -4,9 +4,12 @@ import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { Button, Image } from "antd";
 import { useNavigate } from "react-router-dom";
 import { BotaoP } from "../../components/commons/botPadrão/Styles";
+import { useReadUser } from "../../../hooks/usuarios";
 
 function Login() {
   const navigate = useNavigate();
+  const { data: users } = useReadUser({});
+  console.log(users);
   return (
     <div>
       <div
@@ -44,15 +47,9 @@ function Login() {
         >
           LOGIN
         </text>
-        <StyInput variant="Outlined" placeholder="Email" />
-        <StySenha
-          placeholder="Senha"
-          visibilityToggle={true}
-          iconRender={(visible) =>
-            visible ? <EyeFilled /> : <EyeInvisibleFilled />
-          }
-        />
-        <text
+        <StyInput placeholder="Email" />
+        <StySenha placeholder="Senha" />
+        <div
           style={{
             fontSize: "2vh",
             color: "white",
@@ -71,9 +68,9 @@ function Login() {
               aqui
             </Button>
           }
-        </text>
+        </div>
         <BotaoP onClick={() => navigate("/")}>
-          <text
+          <div
             style={{
               fontSize: "3vh",
               color: "black",
@@ -82,7 +79,7 @@ function Login() {
             }}
           >
             ENTRAR{" "}
-          </text>
+          </div>
         </BotaoP>
       </div>
     </div>
